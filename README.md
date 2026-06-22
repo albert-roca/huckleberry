@@ -1,12 +1,91 @@
 # huckleberry_script.py
 
-This script executes an informational audit comparing classical physical formulations to a unified geometric model with no free parameters. The audit evaluates both frameworks across three specific computational metrics:
+This script executes an informational audit comparing classical physical formulations to a unified geometric model with no free parameters. The audit evaluates both structures across three computational metrics:
 
-1. Informational content (bits): Compares the description length by measuring the bit-depth of empirical primitives.
+1. Informational content (bits): Compares the description length by measuring the bit-depth of empirical primitives under a Minimum Description Length (MDL) criterion.
+2. Algorithmic execution cost (FLOPs): Measures the weighted mathematical operations required to compute the dynamic state, reflecting the raw computational effort of the equations.
+3. Cyclomatic complexity (branching nodes): Uses a native AST parser to calculate the cyclomatic complexity (CC) and measure the topological continuity of the logic flow.
 
-2. Algorithmic execution cost (FLOPs): Measures the weighted mathematical operations required to compute the dynamic state.
+The source code maintains algebraic-computational isomorphism in order to prevent notation artifacts from distorting the intrinsic complexity of either framework.
 
-3. Cyclomatic complexity (branching nodes): Uses an AST parser to calculate cyclomatic complexity.
+## Expected output
+
+```python
+===============================================================================
+HUCKLEBERRY SCRIPT
+Minimal logical complexity and algorithmic information audit
+===============================================================================
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+EPISTEMOLOGICAL NOTE
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Under the framework of Algorithmic Information Theory (AIT) and the Minimum Description
+Length (MDL) principle, the quality of a theory is evaluated by: L(model) + L(data|model).
+Because both the classical (3PN) and geometric models evaluated here yield numerically identical
+outputs across all evaluated scenarios (Discrepancy = 0.000000), the data-error term L(data|model)
+cancels out. The comparison therefore reduces to L(model): the intrinsic algorithmic description
+length. This audit evaluates structural compression under the assumption of numerical
+equivalence within the benchmark.
+
+1. AXIOMATIC COMPRESSION: The geometric model reduces the informational bit-depth by eliminating G
+   and k_e as independent empirical primitives, deriving them from the dimensionless invariant alpha.
+2. ONTOLOGICAL CONTINUITY & BOUNDARY CONDITIONS: The geometric model resolves the singularity
+   branchlessly (CC=1) using continuous mathematical bounds (F_max) as natural structural limits.
+   The classical model achieves CC=1 in Test B only by allowing unphysical mathematical infinities.
+3. COMPUTATIONAL EFFICIENCY (Weighted FLOPs): Approximates typical IEEE 754 FPU clock
+   cycle latencies (Add/Mul=1, Div=4, Sqrt=8, Pow=10) to evaluate true execution cost.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+NUMERICAL VERIFICATION
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+TEST A: HEURISTIC FRAGMENTATION
+Implication: To match the float64 precision of the unified geometric root, the classical model
+is forced to compute a costly 3rd-order post-Newtonian (3PN) Taylor expansion. At the mesoscopic gap,
+uncertainty forces a superposition. The geometric model unifies natively.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Interaction                  Classical formula                                                             Classical value (m/s**2)      Geometric formula                                               Geometric value (m/s**2)      Discrepancy (ppm)      
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Electron-Proton              F_e = k_e*|q_1*q_2| / r**2                                                    9.04422332410169e+22          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      9.04422332410169e+22          0.000000               
+Proton-Earth                 F_g = F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3) [3PN]                         9.79845418864094e+00          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      9.79845418864094e+00          0.000000               
+Sub-mesoscopic (< mz)        F_m = [F_N * 3PN] + [k_e*|q_1*q_2| / r**2]                                    2.31375185461968e-06          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      2.31375185461968e-06          0.000000               
+Super-mesoscopic (> mz)      F_m = [F_N * 3PN] + [k_e*|q_1*q_2| / r**2]                                    6.90501002321038e-07          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      6.90501002321038e-07          0.000000               
+1 kg-Earth                   F_g = F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3) [3PN]                         9.79845111611091e+00          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      9.79845111611091e+00          0.000000               
+Sun-Earth                    F_g = F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3) [3PN]                         5.93033394901687e-03          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      5.93033394901686e-03          0.000000               
+Sun-Mercury                  F_g = F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3) [3PN]                         3.95760817722685e-02          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      3.95760817722684e-02          0.000000               
+PSR J0737-3039               F_g = F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3) [3PN]                         2.45778667822101e+02          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      2.45778667822101e+02          0.000000               
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+TEST B: ONTOLOGICAL SUPERPOSITION
+Implication: If physical reality is governed by the superposition of independent fundamental forces,
+ontological consistency mandates their simultaneous evaluation across all scales. This test shows
+the hidden algorithmic cost of manually superposing forces as separate classical entities.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Interaction                  Classical formula                                                             Classical value (m/s**2)      Geometric formula                                               Geometric value (m/s**2)      Discrepancy (ppm)      
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Electron-Proton              F = [k_e*|q_1*q_2| / r**2] + [F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3)]      9.04422332410169e+22          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      9.04422332410169e+22          0.000000               
+Proton-Earth                 F = [k_e*|q_1*q_2| / r**2] + [F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3)]      9.79845418864094e+00          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      9.79845418864094e+00          0.000000               
+Sub-mesoscopic (< mz)        F = [k_e*|q_1*q_2| / r**2] + [F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3)]      2.31375185461968e-06          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      2.31375185461968e-06          0.000000               
+Super-mesoscopic (> mz)      F = [k_e*|q_1*q_2| / r**2] + [F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3)]      6.90501002321038e-07          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      6.90501002321038e-07          0.000000               
+1 kg-Earth                   F = [k_e*|q_1*q_2| / r**2] + [F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3)]      9.79845111611091e+00          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      9.79845111611091e+00          0.000000               
+Sun-Earth                    F = [k_e*|q_1*q_2| / r**2] + [F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3)]      5.93033394901687e-03          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      5.93033394901686e-03          0.000000               
+Sun-Mercury                  F = [k_e*|q_1*q_2| / r**2] + [F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3)]      3.95760817722685e-02          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      3.95760817722684e-02          0.000000               
+PSR J0737-3039               F = [k_e*|q_1*q_2| / r**2] + [F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3)]      2.45778667822101e+02          F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)      2.45778667822101e+02          0.000000               
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+COMPUTATIONAL METRICS
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                               AUDIT A (heuristic)                                        AUDIT B (ontological)                                      
+Metric                                                         Classical      Geometric      Compression ratio            Classical      Geometric      Compression ratio            
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1. INFORMATIONAL CONTENT (precision bit-depth)                 48.11          32.63          1.47x                        48.11          32.63          1.47x                        
+2. ALGORITHMIC EXECUTION COST (weighted FLOPs)                 75             57             1.32x                        73             57             1.28x                        
+3. CYCLOMATIC COMPLEXITY (AST static decision nodes) [CC]      3              1              3.00x                        1              1              1.00x                        
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+```
 
 # GEOMETRIC UNIFICATION OF PHYSICAL INTERACTIONS
 
@@ -3883,6 +3962,8 @@ This mutual dependence formally mathematicalizes Mach's principle within a discr
 
 The geometric model operates with zero free parameters. Every physical interaction and characteristic scale emerges deterministically from a primitive topological core. The following directed acyclic graph (DAG) maps the explicit causal flow of the derivations contained within this work.
 
+```text
+
 [ PRIMITIVE AXIOMS ]
   |
   +-- Fundamental background scales: c, ħ, m_e, r_u
@@ -3945,9 +4026,11 @@ The geometric model operates with zero free parameters. Every physical interacti
   |
   +-- De-saturation metric work envelope (E = F_P · λ)
         +-- Universal mass-energy equivalence: E = m · c^2
-
+```
+        
 ### 20. Minimal logical complexity and algorithmic information audit
 
+```python
 # =============================================================
 # HUCKLEBERRY SCRIPT
 # Minimal logical complexity and algorithmic information audit
@@ -4492,6 +4575,7 @@ class AlgorithmicCompressionAudit:
 
 if __name__ == "__main__":
     AlgorithmicCompressionAudit().generate_report()
+```
 
 ## Acknowledgements
 
