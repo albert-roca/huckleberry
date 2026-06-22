@@ -3024,6 +3024,7 @@ r_S = 2 · G · m / c^2
 
 The minimal runtime architecture isolates the leading-order scalar relativistic modification through five explicit floating-point operations (FLOPs), minimizing memory access overhead during systemic execution.
 
+```python
 # =============================================================
 # THE DWARF OF THE FLOPs
 # Minimal runtime weak-field scalar relativistic kernel
@@ -3082,9 +3083,11 @@ if __name__ == "__main__":
     print(f"Relativistic correction:   {delta_a:.12e} m/s^2")
     print()
     print("Weak-field scalar relativistic calculation executed.")
+```
 
 #### 12.6.6. Expected output
 
+```python
 --- RUNTIME KERNEL EXECUTION ---
 
 Newtonian acceleration:    3.958717460513e-02 m/s^2
@@ -3094,6 +3097,7 @@ Scalar corrected value:    3.958717561473e-02 m/s^2
 Relativistic correction:   1.009592666412e-09 m/s^2
 
 Weak-field scalar relativistic calculation executed.
+```
 
 #### 12.6.7. Final interpretation
 
