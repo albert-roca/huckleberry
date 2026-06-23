@@ -142,8 +142,8 @@ CLASSICAL_KERNEL_SRC_A = """
 def classical_routing_kernel_A(self, r, mass=0, target_mass=1, q_source=0, q_target=0):
     r2 = r**2
     F_g_n = (self.G * mass * target_mass) / r2
-    x = (2.0 * self.G * mass) / (self.c2 * r)
-    F_g = F_g_n * (1.0 + 0.5 * x + 0.375 * x**2 + 0.3125 * x**3)
+    r_S_over_r = (2.0 * self.G * mass) / (self.c2 * r)
+    F_g = F_g_n * (1.0 + self.w1 * r_S_over_r + self.w2 * r_S_over_r**2 + self.w3 * r_S_over_r**3)
     F_e = (self.k_e * abs(q_source * q_target * self.e_charge**2)) / r2
 
     # CODATA threshold: The negligibility threshold is set at 45454.0.
@@ -166,8 +166,8 @@ CLASSICAL_KERNEL_SRC_B = """
 def classical_routing_kernel_B(self, r, mass=0, target_mass=1, q_source=0, q_target=0):
     r2 = r**2
     F_g_n = (self.G * mass * target_mass) / r2
-    x = (2.0 * self.G * mass) / (self.c2 * r)
-    F_g = F_g_n * (1.0 + 0.5 * x + 0.375 * x**2 + 0.3125 * x**3)
+    r_S_over_r = (2.0 * self.G * mass) / (self.c2 * r)
+    F_g = F_g_n * (1.0 + self.w1 * r_S_over_r + self.w2 * r_S_over_r**2 + self.w3 * r_S_over_r**3)
     F_e = self.k_e * abs(q_source * q_target * self.e_charge**2) / r2
     return (F_e + F_g) / target_mass
 """
@@ -199,6 +199,7 @@ class AlgorithmicCompressionAudit:
         self.delta_alpha = 1.5e-10
         self.c = 299792458.0
         self.c2 = self.c ** 2
+
         self.k_e = 8.9875517923e9
         self.e_charge = 1.602176634e-19
         self.m_e = 9.1093837139e-31
@@ -213,6 +214,11 @@ class AlgorithmicCompressionAudit:
         self.alpha = 7.2973525693e-3
         self.F_P = (self.c ** 4) / self.G
         self.F_max = self.F_P * math.sqrt(self.alpha)  # ~1.03e43 N
+
+        # Taylor expansion weights natively declared
+        self.w1 = 1.0 / 2.0
+        self.w2 = 3.0 / 8.0
+        self.w3 = 5.0 / 16.0
 
     def evaluate_informational_content(self):
         return -math.log2(self.delta_G) + -math.log2(self.delta_alpha), -math.log2(self.delta_alpha)
@@ -229,9 +235,13 @@ class AlgorithmicCompressionAudit:
         r2 = r_t ** 2
 
         F_g_n = (FLOPTracker(self.G) * m * tm) / r2
-        x = (FLOPTracker(2.0) * FLOPTracker(self.G) * m) / (FLOPTracker(self.c2) * r_t)
-        poly = FLOPTracker(1.0) + (FLOPTracker(0.5) * x) + (FLOPTracker(0.375) * x ** 2) + (
-                FLOPTracker(0.3125) * x ** 3)
+        r_S_over_r = (FLOPTracker(2.0) * FLOPTracker(self.G) * m) / (FLOPTracker(self.c2) * r_t)
+
+        w1_t = FLOPTracker(self.w1)
+        w2_t = FLOPTracker(self.w2)
+        w3_t = FLOPTracker(self.w3)
+
+        poly = FLOPTracker(1.0) + (w1_t * r_S_over_r) + (w2_t * r_S_over_r ** 2) + (w3_t * r_S_over_r ** 3)
         F_g = F_g_n * poly
 
         F_e = (FLOPTracker(self.k_e) * abs(q1 * q2 * FLOPTracker(self.e_charge) ** 2)) / r2
@@ -257,9 +267,13 @@ class AlgorithmicCompressionAudit:
 
         # [3PN] Expansion: Minimum requirement for precise absolute simulation.
         F_g_n = (FLOPTracker(self.G) * m_t * tm_t) / r2
-        x = (FLOPTracker(2.0) * FLOPTracker(self.G) * m_t) / (FLOPTracker(self.c2) * r_t)
-        poly = FLOPTracker(1.0) + (FLOPTracker(0.5) * x) + (FLOPTracker(0.375) * x ** 2) + (
-                FLOPTracker(0.3125) * x ** 3)
+        r_S_over_r = (FLOPTracker(2.0) * FLOPTracker(self.G) * m_t) / (FLOPTracker(self.c2) * r_t)
+
+        w1_t = FLOPTracker(self.w1)
+        w2_t = FLOPTracker(self.w2)
+        w3_t = FLOPTracker(self.w3)
+
+        poly = FLOPTracker(1.0) + (w1_t * r_S_over_r) + (w2_t * r_S_over_r ** 2) + (w3_t * r_S_over_r ** 3)
         F_g = F_g_n * poly
 
         F_e = (FLOPTracker(self.k_e) * abs(q1_t * q2_t * FLOPTracker(self.e_charge) ** 2)) / r2
@@ -327,11 +341,11 @@ class AlgorithmicCompressionAudit:
             CODATA_THRESHOLD = 45454.0
 
             if F_g_n_val > F_e_val * CODATA_THRESHOLD:
-                c_f = "F_g = F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3) [3PN]"
+                c_f = "F_g = F_N * (1 + (1/2)(r_S/r) + (3/8)(r_S/r)**2 + (5/16)(r_S/r)**3) [3PN]"
             elif F_e_val > F_g_n_val * CODATA_THRESHOLD:
                 c_f = "F_e = k_e*|q_1*q_2| / r**2"
             else:
-                c_f = "F_m = [F_N * 3PN] + [k_e*|q_1*q_2| / r**2]"
+                c_f = "F_m = [F_N * (1 + (1/2)(r_S/r) + (3/8)(r_S/r)**2 + (5/16)(r_S/r)**3)] + [k_e*|q_1*q_2| / r**2]"
 
             g_f = "F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)"
 
@@ -358,7 +372,7 @@ class AlgorithmicCompressionAudit:
             val_g = self.geometric_unified_kernel(r, m1, n1, m2, n2).value
             max_g_flops_B = max(max_g_flops_B, FLOPTracker.flops)
 
-            c_f = "F = [k_e*|q_1*q_2| / r**2] + [F_N * (1 + 0.5x + 0.375x**2 + 0.3125x**3)]"
+            c_f = "F = [k_e*|q_1*q_2| / r**2] + [F_N * (1 + (1/2)(r_S/r) + (3/8)(r_S/r)**2 + (5/16)(r_S/r)**3)]"
             g_f = "F_u = (U / r**2) * ((m_1*m_2 / z) + s) / sqrt(1 - L_t / r)"
 
             if math.isclose(val_c, val_g, rel_tol=1e-15):
@@ -373,7 +387,7 @@ class AlgorithmicCompressionAudit:
         # =============================================================================
 
         W_NAME = 29
-        W_CFORM = 78
+        W_CFORM = 98
         W_CVAL = 30
         W_GFORM = 64
         W_GVAL = 30
