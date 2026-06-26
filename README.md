@@ -4605,34 +4605,3 @@ The present version focuses on derivation from first principles. Formal bibliogr
 ## References
 
 Roca, A. (2025). Unified Model of Gravitation and Electrostatics. https://doi.org/10.13140/RG.2.2.22236.71049
-
-## About the author
-
-### Other works & publications
-
-#### Books
-
-* Un cargol per a l'Emma. Edebé, 1998. Premi Edebé de Literatura Infantil. ISBN: 84-236-4735-8. Translated to Spanish and Braille.
-* Galeries subterrànies. Proa, 1999. Premi Mercè Rodoreda. ISBN: 84-8256-719-5.
-* Sobretaula amb càmera fixa. Destino, Universitat de Barcelona, Freixenet, 2000. Premi Sent Soví de Literatura Gastronòmica. ISBN: 84-233-3285-3.
-* Penombra oriental. La Magrana, 2001. ISBN: 84-8264-343-6.
-* Això és absurd. La Magrana, 2004. ISBN: 84-7871-186-4.
-* La donzella revoltada: Drama feminista d'època reblat a l'empordanesa. Falcons, 2023. ISBN: 978-84-09-56624-2.
-
-### Monographs
-
-* 25 anys de protecció als Aiguamolls de l'Empordà. Diputació de Girona, 2009.
-* L'origen vocal del bipedisme: Caminem perquè parlem. Falcons, 2024. ISBN: 978-84-09-63053-0.
-* The vocal origin of bipedalism: we walk because we talk. Falcons, 2024. ISBN: 978-84-09-63260-2.
-
-#### Contributions collective volumes
-
-* Referèndum permanent. A: La Bugadera. La Magrana, 2002. ISBN: 84-8264-380-0.
-* Inadaptat. A: Veus, Empúries, 2010. ISBN: 978-84-9787-668-1, and: Voces, Anagrama, 2010. ISBN: 978-84-339-7217-0.
-* Singularitat mística. A: Tombes i lletres. Edicions Sidillà, 2011. ISBN: 978-84-938743-1-5.
-
-### Contact
-
-Email: albert.roca.mz@gmail.com
-X: @albertrocax
-
